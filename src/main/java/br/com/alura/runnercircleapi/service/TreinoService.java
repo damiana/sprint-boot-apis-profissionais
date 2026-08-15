@@ -7,6 +7,7 @@ import br.com.alura.runnercircleapi.model.TipoTreino;
 import br.com.alura.runnercircleapi.repository.TreinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,9 @@ public class TreinoService {
 
     @Autowired
     private TreinoMapper treinoMapper;
+
+    @Autowired
+    private ImagemUploadService imagemUploadService;
 
     public List<Treino> listar(TipoTreino tipoTreino) {
         List<Treino> treinos = treinoRepository.findAll();
@@ -37,7 +41,10 @@ public class TreinoService {
         return treinoRepository.findById(id);
     }
 
-    public Treino criar(Treino treino) {
+    public Treino criar(Treino treino, MultipartFile imagem) {
+        if (imagem != null && !imagem.isEmpty()) {
+            treino.setImagemUrl(imagemUploadService.salvar(imagem));
+        }
         return treinoRepository.save(treino);
     }
 

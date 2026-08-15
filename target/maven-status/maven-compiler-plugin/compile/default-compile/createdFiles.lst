@@ -1,10 +1,13 @@
 br\com\alura\runnercircleapi\service\TreinoService.class
 br\com\alura\runnercircleapi\model\TipoTreino.class
+br\com\alura\runnercircleapi\service\ImagemUploadService.class
+br\com\alura\runnercircleapi\exception\ImagemInvalidaException.class
 br\com\alura\runnercircleapi\dto\TreinoRequestDTO.class
 br\com\alura\runnercircleapi\model\User.class
 br\com\alura\runnercircleapi\exception\GlobalExceptionHandler.class
 br\com\alura\runnercircleapi\repository\UserRepository.class
 br\com\alura\runnercircleapi\model\Treino.class
+br\com\alura\runnercircleapi\config\WebConfig.class
 br\com\alura\runnercircleapi\RunnerCircleApiApplication.class
 br\com\alura\runnercircleapi\dto\TreinoResponseDTO.class
 br\com\alura\runnercircleapi\controller\TreinoController.class

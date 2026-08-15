@@ -1,7 +1,9 @@
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\config\WebConfig.java
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\controller\TreinoController.java
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\dto\TreinoRequestDTO.java
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\dto\TreinoResponseDTO.java
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\exception\GlobalExceptionHandler.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\exception\ImagemInvalidaException.java
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\mapper\TreinoMapper.java
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\model\TipoTreino.java
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\model\Treino.java
@@ -9,4 +11,5 @@ C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\jav
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\repository\TreinoRepository.java
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\repository\UserRepository.java
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\RunnerCircleApiApplication.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\service\ImagemUploadService.java
 C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\service\TreinoService.java
