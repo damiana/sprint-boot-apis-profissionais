@@ -73,6 +73,22 @@ public class TreinoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PostMapping("/{id}/curtir")
+    @Operation(summary = "Curte um treino. O userId é temporário até a autenticação ser implementada.")
+    public ResponseEntity<TreinoResponseDTO> curtir(@PathVariable Long id, @RequestParam Long userId) {
+        return treinoService.curtir(id, userId)
+                .map(treino -> ResponseEntity.ok(treinoMapper.toResponseDTO(treino)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}/curtir")
+    @Operation(summary = "Remove a curtida de um treino. O userId é temporário até a autenticação ser implementada.")
+    public ResponseEntity<TreinoResponseDTO> descurtir(@PathVariable Long id, @RequestParam Long userId) {
+        return treinoService.descurtir(id, userId)
+                .map(treino -> ResponseEntity.ok(treinoMapper.toResponseDTO(treino)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     @Operation(summary = "Remove um treino")
     public ResponseEntity<Void> remover(@PathVariable Long id) {

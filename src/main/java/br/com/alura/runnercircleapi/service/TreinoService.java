@@ -66,6 +66,30 @@ public class TreinoService {
         return treinoRepository.findByAutorId(autorId);
     }
 
+    public Optional<Treino> curtir(Long treinoId, Long userId) {
+        return treinoRepository.findById(treinoId)
+                .map(treino -> {
+                    User user = userRepository.findById(userId)
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "usuário não encontrado"));
+
+                    boolean jaCurtiu = treino.getCurtidas().stream()
+                            .anyMatch(u -> u.getId().equals(userId));
+                    if (!jaCurtiu) {
+                        treino.getCurtidas().add(user);
+                    }
+
+                    return treinoRepository.save(treino);
+                });
+    }
+
+    public Optional<Treino> descurtir(Long treinoId, Long userId) {
+        return treinoRepository.findById(treinoId)
+                .map(treino -> {
+                    treino.getCurtidas().removeIf(u -> u.getId().equals(userId));
+                    return treinoRepository.save(treino);
+                });
+    }
+
     public Optional<Treino> atualizar(Long id, TreinoRequestDTO dto) {
         return treinoRepository.findById(id)
                 .map(treino -> {

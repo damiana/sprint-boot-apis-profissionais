@@ -14,6 +14,7 @@ public record TreinoResponseDTO(
         String descricao,
         String imagemUrl,
         LocalDateTime dataCriacao,
-        AutorResumoDTO autor
+        AutorResumoDTO autor,
+        Integer curtidasCount
 ) {
 }
