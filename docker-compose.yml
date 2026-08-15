@@ -1,0 +1,27 @@
+services:
+#  api:
+#    build: .
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      DB_HOST: postgres
+#      DB_PORT: 5432
+#      DB_NAME: runnercircle
+#      DB_USER: postgres
+#      DB_PASSWORD: postgres
+#    depends_on:
+#      - postgres
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: runnercircle
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - runnercircle-db:/var/lib/postgresql/data
+
+volumes:
+  runnercircle-db:
