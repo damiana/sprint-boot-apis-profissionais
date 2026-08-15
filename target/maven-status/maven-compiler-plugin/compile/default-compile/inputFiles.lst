@@ -1,12 +1,11 @@
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/RunnerCircleApiApplication.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/controller/TreinoController.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/dto/TreinoRequestDTO.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/dto/TreinoResponseDTO.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/entity/Treino.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/entity/User.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/enums/TipoTreino.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/exception/GlobalExceptionHandler.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/mapper/TreinoMapper.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/repository/TreinoRepository.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/repository/UserRepository.java
-/Users/damianacosta/Projetos/Alura/Curso sprint-boot-apis-profissionais/runner-circle-api/src/main/java/br/com/alura/runnercircleapi/service/TreinoService.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\GlobalExceptionHandler.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\RunnerCircleApiApplication.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\TipoTreino.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\Treino.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\TreinoController.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\TreinoRepository.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\TreinoRequestDTO.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\TreinoResponseDTO.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\TreinoService.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\User.java
+C:\Users\PC Studio 2\Desktop\damiana\sprint-boot-apis-profissionais\src\main\java\br\com\alura\runnercircleapi\UserRepository.java

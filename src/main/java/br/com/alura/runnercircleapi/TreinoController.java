@@ -25,20 +25,12 @@ import java.util.stream.Collectors;
 public class TreinoController {
 
     @Autowired
-    private TreinoRepository treinoRepository;
+    private TreinoService treinoService;
 
     @GetMapping
     @Operation(summary = "Lista os treinos, com filtro opcional por tipo (CAMINHADA ou CORRIDA)")
     public List<TreinoResponseDTO> listar(@RequestParam(required = false) TipoTreino tipoTreino) {
-        List<Treino> treinos = treinoRepository.findAll();
-
-        if (tipoTreino != null) {
-            treinos = treinos.stream()
-                    .filter(treino -> treino.getTipoTreino() == tipoTreino)
-                    .collect(Collectors.toList());
-        }
-
-        return treinos.stream()
+        return treinoService.listar(tipoTreino).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
@@ -46,7 +38,7 @@ public class TreinoController {
     @GetMapping("/{id}")
     @Operation(summary = "Busca um treino pelo id")
     public ResponseEntity<TreinoResponseDTO> buscarPorId(@PathVariable Long id) {
-        return treinoRepository.findById(id)
+        return treinoService.buscarPorId(id)
                 .map(treino -> ResponseEntity.ok(toDTO(treino)))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -54,35 +46,24 @@ public class TreinoController {
     @PostMapping
     @Operation(summary = "Cria um novo treino")
     public ResponseEntity<TreinoResponseDTO> criar(@Valid @RequestBody TreinoRequestDTO dto) {
-        Treino treino = toEntity(dto);
-        treino = treinoRepository.save(treino);
+        Treino treino = treinoService.criar(toEntity(dto));
         return ResponseEntity.status(HttpStatus.CREATED).body(toDTO(treino));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza um treino existente")
     public ResponseEntity<TreinoResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody TreinoRequestDTO dto) {
-        return treinoRepository.findById(id)
-                .map(treino -> {
-                    treino.setTipoTreino(dto.tipoTreino());
-                    treino.setTempoEmMinutos(dto.tempoEmMinutos());
-                    treino.setDistanciaMetros(dto.distanciaMetros());
-                    treino.setCalorias(dto.calorias());
-                    treino.setBatimentos(dto.batimentos());
-                    treino.setDescricao(dto.descricao());
-                    treino = treinoRepository.save(treino);
-                    return ResponseEntity.ok(toDTO(treino));
-                })
+        return treinoService.atualizar(id, dto)
+                .map(treino -> ResponseEntity.ok(toDTO(treino)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Remove um treino")
     public ResponseEntity<Void> remover(@PathVariable Long id) {
-        if (!treinoRepository.existsById(id)) {
+        if (!treinoService.remover(id)) {
             return ResponseEntity.notFound().build();
         }
-        treinoRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
