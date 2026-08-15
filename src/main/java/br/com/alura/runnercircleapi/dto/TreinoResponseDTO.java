@@ -13,6 +13,7 @@ public record TreinoResponseDTO(
         Integer batimentos,
         String descricao,
         String imagemUrl,
-        LocalDateTime dataCriacao
+        LocalDateTime dataCriacao,
+        AutorResumoDTO autor
 ) {
 }

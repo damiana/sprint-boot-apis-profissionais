@@ -1,6 +1,7 @@
 package br.com.alura.runnercircleapi.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,7 +31,7 @@ public class User {
 
     private String avatarUrl;
 
-    @OneToMany(mappedBy = "autor")
+    @OneToMany(mappedBy = "autor", fetch = FetchType.LAZY)
     private List<Treino> treinos = new ArrayList<>();
 
     public User() {

@@ -56,10 +56,12 @@ public class TreinoController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Cria um novo treino, com imagem opcional (jpg, jpeg, png ou webp, até 5MB)")
+    @Operation(summary = "Cria um novo treino, com imagem opcional (jpg, jpeg, png ou webp, até 5MB). " +
+            "O userId é temporário até a autenticação ser implementada.")
     public ResponseEntity<TreinoResponseDTO> criar(@Valid @RequestPart("dados") TreinoRequestDTO dto,
-                                                    @RequestPart(value = "imagem", required = false) MultipartFile imagem) {
-        Treino treino = treinoService.criar(treinoMapper.toEntity(dto), imagem);
+                                                    @RequestPart(value = "imagem", required = false) MultipartFile imagem,
+                                                    @RequestParam Long userId) {
+        Treino treino = treinoService.criar(dto, userId, imagem);
         return ResponseEntity.status(HttpStatus.CREATED).body(treinoMapper.toResponseDTO(treino));
     }
 
