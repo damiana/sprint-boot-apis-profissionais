@@ -4,12 +4,13 @@ import br.com.alura.runnercircleapi.dto.TreinoRequestDTO;
 import br.com.alura.runnercircleapi.dto.TreinoResponseDTO;
 import br.com.alura.runnercircleapi.mapper.TreinoMapper;
 import br.com.alura.runnercircleapi.model.Treino;
-import br.com.alura.runnercircleapi.model.TipoTreino;
 import br.com.alura.runnercircleapi.service.TreinoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +26,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/treinos")
 @Tag(name = "Treinos", description = "CRUD de treinos (corrida e caminhada) do Runner Circle")
@@ -40,11 +38,10 @@ public class TreinoController {
     private TreinoMapper treinoMapper;
 
     @GetMapping
-    @Operation(summary = "Lista os treinos, com filtro opcional por tipo (CAMINHADA ou CORRIDA)")
-    public List<TreinoResponseDTO> listar(@RequestParam(required = false) TipoTreino tipoTreino) {
-        return treinoService.listar(tipoTreino).stream()
-                .map(treinoMapper::toResponseDTO)
-                .collect(Collectors.toList());
+    @Operation(summary = "Lista os treinos de forma paginada")
+    public Page<TreinoResponseDTO> listar(Pageable pageable) {
+        return treinoService.listar(pageable)
+                .map(treinoMapper::toResponseDTO);
     }
 
     @GetMapping("/{id}")
