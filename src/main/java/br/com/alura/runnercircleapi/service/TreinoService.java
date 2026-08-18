@@ -33,7 +33,7 @@ public class TreinoService {
     private ImagemUploadService imagemUploadService;
 
     public List<Treino> listar(TipoTreino tipoTreino) {
-        List<Treino> treinos = treinoRepository.findAll();
+        List<Treino> treinos = treinoRepository.buscarTodosComAutorOrdenadoPorDataCriacaoDesc();
 
         if (tipoTreino != null) {
             treinos = treinos.stream()
