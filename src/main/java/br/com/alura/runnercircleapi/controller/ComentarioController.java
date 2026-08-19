@@ -5,7 +5,6 @@ import br.com.alura.runnercircleapi.dto.ComentarioResponseDTO;
 import br.com.alura.runnercircleapi.mapper.ComentarioMapper;
 import br.com.alura.runnercircleapi.model.Comentario;
 import br.com.alura.runnercircleapi.service.ComentarioService;
-import br.com.alura.runnercircleapi.service.TreinoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -29,9 +28,6 @@ import java.util.stream.Collectors;
 public class ComentarioController {
 
     @Autowired
-    private TreinoService treinoService;
-
-    @Autowired
     private ComentarioService comentarioService;
 
     @Autowired
@@ -39,13 +35,10 @@ public class ComentarioController {
 
     @GetMapping
     @Operation(summary = "Lista os comentários de um treino")
-    public ResponseEntity<List<ComentarioResponseDTO>> listar(@PathVariable Long treinoId) {
-        return treinoService.buscarPorId(treinoId)
-                .map(treino -> ResponseEntity.ok(
-                        comentarioService.listarPorTreino(treinoId).stream()
-                                .map(comentarioMapper::toResponseDTO)
-                                .collect(Collectors.toList())))
-                .orElse(ResponseEntity.notFound().build());
+    public List<ComentarioResponseDTO> listar(@PathVariable Long treinoId) {
+        return comentarioService.listarPorTreino(treinoId).stream()
+                .map(comentarioMapper::toResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @PostMapping
@@ -53,11 +46,7 @@ public class ComentarioController {
     public ResponseEntity<ComentarioResponseDTO> criar(@PathVariable Long treinoId,
                                                          @Valid @RequestBody ComentarioRequestDTO dto,
                                                          @RequestParam Long userId) {
-        return treinoService.buscarPorId(treinoId)
-                .map(treino -> {
-                    Comentario comentario = comentarioService.criar(treino, dto, userId);
-                    return ResponseEntity.status(HttpStatus.CREATED).body(comentarioMapper.toResponseDTO(comentario));
-                })
-                .orElse(ResponseEntity.notFound().build());
+        Comentario comentario = comentarioService.criar(treinoId, dto, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(comentarioMapper.toResponseDTO(comentario));
     }
 }

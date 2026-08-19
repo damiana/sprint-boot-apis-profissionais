@@ -46,10 +46,8 @@ public class TreinoController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Busca um treino pelo id")
-    public ResponseEntity<TreinoResponseDTO> buscarPorId(@PathVariable Long id) {
-        return treinoService.buscarPorId(id)
-                .map(treino -> ResponseEntity.ok(treinoMapper.toResponseDTO(treino)))
-                .orElse(ResponseEntity.notFound().build());
+    public TreinoResponseDTO buscarPorId(@PathVariable Long id) {
+        return treinoMapper.toResponseDTO(treinoService.buscarPorId(id));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -64,34 +62,26 @@ public class TreinoController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza um treino existente")
-    public ResponseEntity<TreinoResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody TreinoRequestDTO dto) {
-        return treinoService.atualizar(id, dto)
-                .map(treino -> ResponseEntity.ok(treinoMapper.toResponseDTO(treino)))
-                .orElse(ResponseEntity.notFound().build());
+    public TreinoResponseDTO atualizar(@PathVariable Long id, @Valid @RequestBody TreinoRequestDTO dto) {
+        return treinoMapper.toResponseDTO(treinoService.atualizar(id, dto));
     }
 
     @PostMapping("/{id}/curtir")
     @Operation(summary = "Curte um treino. O userId é temporário até a autenticação ser implementada.")
-    public ResponseEntity<TreinoResponseDTO> curtir(@PathVariable Long id, @RequestParam Long userId) {
-        return treinoService.curtir(id, userId)
-                .map(treino -> ResponseEntity.ok(treinoMapper.toResponseDTO(treino)))
-                .orElse(ResponseEntity.notFound().build());
+    public TreinoResponseDTO curtir(@PathVariable Long id, @RequestParam Long userId) {
+        return treinoMapper.toResponseDTO(treinoService.curtir(id, userId));
     }
 
     @DeleteMapping("/{id}/curtir")
     @Operation(summary = "Remove a curtida de um treino. O userId é temporário até a autenticação ser implementada.")
-    public ResponseEntity<TreinoResponseDTO> descurtir(@PathVariable Long id, @RequestParam Long userId) {
-        return treinoService.descurtir(id, userId)
-                .map(treino -> ResponseEntity.ok(treinoMapper.toResponseDTO(treino)))
-                .orElse(ResponseEntity.notFound().build());
+    public TreinoResponseDTO descurtir(@PathVariable Long id, @RequestParam Long userId) {
+        return treinoMapper.toResponseDTO(treinoService.descurtir(id, userId));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Remove um treino")
     public ResponseEntity<Void> remover(@PathVariable Long id) {
-        if (!treinoService.remover(id)) {
-            return ResponseEntity.notFound().build();
-        }
+        treinoService.remover(id);
         return ResponseEntity.noContent().build();
     }
 }

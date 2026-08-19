@@ -1,6 +1,8 @@
 package br.com.alura.runnercircleapi.service;
 
 import br.com.alura.runnercircleapi.dto.TreinoRequestDTO;
+import br.com.alura.runnercircleapi.exception.TreinoNotFoundException;
+import br.com.alura.runnercircleapi.exception.UsuarioNaoEncontradoException;
 import br.com.alura.runnercircleapi.mapper.TreinoMapper;
 import br.com.alura.runnercircleapi.model.Treino;
 import br.com.alura.runnercircleapi.model.User;
@@ -11,13 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TreinoService {
@@ -43,13 +42,14 @@ public class TreinoService {
         return treinoRepository.buscarPorDescricaoComAutor(buscaPattern, paginacao);
     }
 
-    public Optional<Treino> buscarPorId(Long id) {
-        return treinoRepository.findById(id);
+    public Treino buscarPorId(Long id) {
+        return treinoRepository.findById(id)
+                .orElseThrow(() -> new TreinoNotFoundException("treino não encontrado"));
     }
 
     public Treino criar(TreinoRequestDTO dto, Long userId, MultipartFile imagem) {
         User autor = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "usuário não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("usuário não encontrado"));
 
         Treino treino = treinoMapper.toEntity(dto);
         treino.setAutor(autor);
@@ -65,43 +65,34 @@ public class TreinoService {
         return treinoRepository.findByAutorId(autorId);
     }
 
-    public Optional<Treino> curtir(Long treinoId, Long userId) {
-        return treinoRepository.findById(treinoId)
-                .map(treino -> {
-                    User user = userRepository.findById(userId)
-                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "usuário não encontrado"));
+    public Treino curtir(Long treinoId, Long userId) {
+        Treino treino = buscarPorId(treinoId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("usuário não encontrado"));
 
-                    boolean jaCurtiu = treino.getCurtidas().stream()
-                            .anyMatch(u -> u.getId().equals(userId));
-                    if (!jaCurtiu) {
-                        treino.getCurtidas().add(user);
-                    }
-
-                    return treinoRepository.save(treino);
-                });
-    }
-
-    public Optional<Treino> descurtir(Long treinoId, Long userId) {
-        return treinoRepository.findById(treinoId)
-                .map(treino -> {
-                    treino.getCurtidas().removeIf(u -> u.getId().equals(userId));
-                    return treinoRepository.save(treino);
-                });
-    }
-
-    public Optional<Treino> atualizar(Long id, TreinoRequestDTO dto) {
-        return treinoRepository.findById(id)
-                .map(treino -> {
-                    treinoMapper.atualizarEntity(treino, dto);
-                    return treinoRepository.save(treino);
-                });
-    }
-
-    public boolean remover(Long id) {
-        if (!treinoRepository.existsById(id)) {
-            return false;
+        boolean jaCurtiu = treino.getCurtidas().stream()
+                .anyMatch(u -> u.getId().equals(userId));
+        if (!jaCurtiu) {
+            treino.getCurtidas().add(user);
         }
-        treinoRepository.deleteById(id);
-        return true;
+
+        return treinoRepository.save(treino);
+    }
+
+    public Treino descurtir(Long treinoId, Long userId) {
+        Treino treino = buscarPorId(treinoId);
+        treino.getCurtidas().removeIf(u -> u.getId().equals(userId));
+        return treinoRepository.save(treino);
+    }
+
+    public Treino atualizar(Long id, TreinoRequestDTO dto) {
+        Treino treino = buscarPorId(id);
+        treinoMapper.atualizarEntity(treino, dto);
+        return treinoRepository.save(treino);
+    }
+
+    public void remover(Long id) {
+        Treino treino = buscarPorId(id);
+        treinoRepository.delete(treino);
     }
 }
