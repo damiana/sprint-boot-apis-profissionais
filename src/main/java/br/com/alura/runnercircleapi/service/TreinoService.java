@@ -34,11 +34,13 @@ public class TreinoService {
     @Autowired
     private ImagemUploadService imagemUploadService;
 
-    public Page<Treino> listar(Pageable pageable) {
+    public Page<Treino> listar(String busca, Pageable pageable) {
         // ordenação customizável fica para a próxima aula; dataCriacao desc é o padrão
         Pageable paginacao = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
                 Sort.by(Sort.Direction.DESC, "dataCriacao"));
-        return treinoRepository.buscarTodosComAutor(paginacao);
+
+        String buscaPattern = "%" + (busca == null ? "" : busca) + "%";
+        return treinoRepository.buscarPorDescricaoComAutor(buscaPattern, paginacao);
     }
 
     public Optional<Treino> buscarPorId(Long id) {

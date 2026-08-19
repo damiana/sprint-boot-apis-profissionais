@@ -38,9 +38,9 @@ public class TreinoController {
     private TreinoMapper treinoMapper;
 
     @GetMapping
-    @Operation(summary = "Lista os treinos de forma paginada")
-    public Page<TreinoResponseDTO> listar(Pageable pageable) {
-        return treinoService.listar(pageable)
+    @Operation(summary = "Lista os treinos de forma paginada, com busca opcional pela descrição")
+    public Page<TreinoResponseDTO> listar(@RequestParam(required = false) String busca, Pageable pageable) {
+        return treinoService.listar(busca, pageable)
                 .map(treinoMapper::toResponseDTO);
     }
 
