@@ -8,6 +8,8 @@ import br.com.alura.runnercircleapi.model.Treino;
 import br.com.alura.runnercircleapi.model.User;
 import br.com.alura.runnercircleapi.repository.TreinoRepository;
 import br.com.alura.runnercircleapi.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,8 @@ import java.util.List;
 
 @Service
 public class TreinoService {
+
+    private static final Logger log = LoggerFactory.getLogger(TreinoService.class);
 
     @Autowired
     private TreinoRepository treinoRepository;
@@ -44,7 +48,10 @@ public class TreinoService {
 
     public Treino buscarPorId(Long id) {
         return treinoRepository.findById(id)
-                .orElseThrow(() -> new TreinoNotFoundException("treino não encontrado"));
+                .orElseThrow(() -> {
+                    log.warn("Tentativa de buscar treino inexistente. id={}", id);
+                    return new TreinoNotFoundException("treino não encontrado");
+                });
     }
 
     public Treino criar(TreinoRequestDTO dto, Long userId, MultipartFile imagem) {
@@ -58,7 +65,10 @@ public class TreinoService {
             treino.setImagemUrl(imagemUploadService.salvar(imagem));
         }
 
-        return treinoRepository.save(treino);
+        Treino treinoSalvo = treinoRepository.save(treino);
+        log.info("Treino criado. id={}, autorId={}, tipoTreino={}", treinoSalvo.getId(), userId, treinoSalvo.getTipoTreino());
+
+        return treinoSalvo;
     }
 
     public List<Treino> listarPorAutor(Long autorId) {
