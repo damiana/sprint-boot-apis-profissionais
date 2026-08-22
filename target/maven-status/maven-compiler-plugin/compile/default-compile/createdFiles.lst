@@ -9,10 +9,14 @@ br\com\alura\runnercircleapi\RunnerCircleApiApplication.class
 br\com\alura\runnercircleapi\controller\TreinoController.class
 br\com\alura\runnercircleapi\repository\TreinoRepository.class
 br\com\alura\runnercircleapi\exception\UsuarioNaoEncontradoException.class
+br\com\alura\runnercircleapi\dto\RegisterRequestDTO.class
+br\com\alura\runnercircleapi\controller\AuthController.class
 br\com\alura\runnercircleapi\model\TipoTreino.class
 br\com\alura\runnercircleapi\exception\TreinoNotFoundException.class
 br\com\alura\runnercircleapi\exception\ImagemInvalidaException.class
 br\com\alura\runnercircleapi\exception\ComentarioNotFoundException.class
+br\com\alura\runnercircleapi\dto\UserResponseDTO.class
+br\com\alura\runnercircleapi\mapper\UserMapper.class
 br\com\alura\runnercircleapi\exception\ErrorResponse.class
 br\com\alura\runnercircleapi\config\WebConfig.class
 br\com\alura\runnercircleapi\dto\TreinoResponseDTO.class
