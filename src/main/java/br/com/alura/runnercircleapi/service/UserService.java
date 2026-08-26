@@ -2,6 +2,7 @@ package br.com.alura.runnercircleapi.service;
 
 import br.com.alura.runnercircleapi.dto.LoginRequestDTO;
 import br.com.alura.runnercircleapi.dto.RegisterRequestDTO;
+import br.com.alura.runnercircleapi.dto.UserUpdateRequestDTO;
 import br.com.alura.runnercircleapi.exception.CredenciaisInvalidasException;
 import br.com.alura.runnercircleapi.mapper.UserMapper;
 import br.com.alura.runnercircleapi.model.User;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,6 +28,17 @@ public class UserService {
 
     public Optional<User> buscarPorId(Long id) {
         return userRepository.findById(id);
+    }
+
+    public List<User> listarTodos() {
+        return userRepository.findAll();
+    }
+
+    public User atualizar(User usuarioAutenticado, UserUpdateRequestDTO dto) {
+        usuarioAutenticado.setUsername(dto.username());
+        usuarioAutenticado.setNome(dto.nome());
+        usuarioAutenticado.setBio(dto.bio());
+        return userRepository.save(usuarioAutenticado);
     }
 
     public User registrar(RegisterRequestDTO dto) {

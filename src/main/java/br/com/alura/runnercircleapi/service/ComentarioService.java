@@ -1,6 +1,8 @@
 package br.com.alura.runnercircleapi.service;
 
 import br.com.alura.runnercircleapi.dto.ComentarioRequestDTO;
+import br.com.alura.runnercircleapi.exception.AcessoNegadoException;
+import br.com.alura.runnercircleapi.exception.ComentarioNotFoundException;
 import br.com.alura.runnercircleapi.exception.UsuarioNaoEncontradoException;
 import br.com.alura.runnercircleapi.mapper.ComentarioMapper;
 import br.com.alura.runnercircleapi.model.Comentario;
@@ -28,6 +30,9 @@ public class ComentarioService {
     @Autowired
     private TreinoService treinoService;
 
+    @Autowired
+    private UsuarioAutenticadoService usuarioAutenticadoService;
+
     public List<Comentario> listarPorTreino(Long treinoId) {
         treinoService.buscarPorId(treinoId);
         return comentarioRepository.findByTreinoId(treinoId);
@@ -43,5 +48,23 @@ public class ComentarioService {
         comentario.setTreino(treino);
 
         return comentarioRepository.save(comentario);
+    }
+
+    public void remover(Long treinoId, Long comentarioId) {
+        Comentario comentario = comentarioRepository.findById(comentarioId)
+                .filter(c -> c.getTreino().getId().equals(treinoId))
+                .orElseThrow(() -> new ComentarioNotFoundException("comentário não encontrado"));
+
+        User usuarioAutenticado = usuarioAutenticadoService.obterUsuarioAutenticado();
+
+        boolean autorDoComentario = comentario.getAutor().getId().equals(usuarioAutenticado.getId());
+        boolean autorDoTreino = comentario.getTreino().getAutor().getId().equals(usuarioAutenticado.getId());
+
+        if (!autorDoComentario && !autorDoTreino) {
+            throw new AcessoNegadoException(
+                    "apenas a pessoa autora do comentário ou do treino pode remover este comentário");
+        }
+
+        comentarioRepository.delete(comentario);
     }
 }

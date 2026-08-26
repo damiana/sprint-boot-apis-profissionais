@@ -1,6 +1,7 @@
 package br.com.alura.runnercircleapi.service;
 
 import br.com.alura.runnercircleapi.dto.TreinoRequestDTO;
+import br.com.alura.runnercircleapi.exception.AcessoNegadoException;
 import br.com.alura.runnercircleapi.exception.TreinoNotFoundException;
 import br.com.alura.runnercircleapi.exception.UsuarioNaoEncontradoException;
 import br.com.alura.runnercircleapi.mapper.TreinoMapper;
@@ -36,6 +37,9 @@ public class TreinoService {
 
     @Autowired
     private ImagemUploadService imagemUploadService;
+
+    @Autowired
+    private UsuarioAutenticadoService usuarioAutenticadoService;
 
     public Page<Treino> listar(String busca, Pageable pageable) {
         // ordenação customizável fica para a próxima aula; dataCriacao desc é o padrão
@@ -97,12 +101,24 @@ public class TreinoService {
 
     public Treino atualizar(Long id, TreinoRequestDTO dto) {
         Treino treino = buscarPorId(id);
+        verificarAutoria(treino);
+
         treinoMapper.atualizarEntity(treino, dto);
         return treinoRepository.save(treino);
     }
 
     public void remover(Long id) {
         Treino treino = buscarPorId(id);
+        verificarAutoria(treino);
+
         treinoRepository.delete(treino);
+    }
+
+    private void verificarAutoria(Treino treino) {
+        User usuarioAutenticado = usuarioAutenticadoService.obterUsuarioAutenticado();
+
+        if (!treino.getAutor().getId().equals(usuarioAutenticado.getId())) {
+            throw new AcessoNegadoException("apenas a pessoa autora do treino pode realizar esta operação");
+        }
     }
 }

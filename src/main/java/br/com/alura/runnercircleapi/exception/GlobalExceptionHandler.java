@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -58,6 +59,22 @@ public class GlobalExceptionHandler {
         log.warn("Tentativa de login com credenciais inválidas em {}", request.getRequestURI());
 
         return construirErro(HttpStatus.UNAUTHORIZED, exception.getMessage(), request);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse tratarAcessoNegado(AccessDeniedException exception, HttpServletRequest request) {
+        log.warn("Acesso negado em {}: {}", request.getRequestURI(), exception.getMessage());
+
+        return construirErro(HttpStatus.FORBIDDEN, "acesso negado: permissão insuficiente para este recurso", request);
+    }
+
+    @ExceptionHandler(AcessoNegadoException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse tratarAcessoNegadoDeNegocio(AcessoNegadoException exception, HttpServletRequest request) {
+        log.warn("Acesso negado em {}: {}", request.getRequestURI(), exception.getMessage());
+
+        return construirErro(HttpStatus.FORBIDDEN, exception.getMessage(), request);
     }
 
     @ExceptionHandler(ImagemInvalidaException.class)
