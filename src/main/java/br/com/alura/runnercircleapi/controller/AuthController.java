@@ -46,6 +46,6 @@ public class AuthController {
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
         User user = userService.autenticar(dto);
         String token = jwtService.gerarToken(user, dto.lembrarMe());
-        return ResponseEntity.ok(new LoginResponseDTO(token, userMapper.toResponseDTO(user)));
+        return ResponseEntity.ok(new LoginResponseDTO(token, userMapper.toResponseDTO(user), user.getRole()));
     }
 }

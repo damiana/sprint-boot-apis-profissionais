@@ -1,7 +1,10 @@
 package br.com.alura.runnercircleapi.dto;
 
+import br.com.alura.runnercircleapi.model.Role;
+
 public record LoginResponseDTO(
         String token,
-        UserResponseDTO usuario
+        UserResponseDTO usuario,
+        Role role
 ) {
 }
