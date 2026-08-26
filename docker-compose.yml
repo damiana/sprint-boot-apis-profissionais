@@ -1,16 +1,18 @@
 services:
-#  api:
-#    build: .
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      DB_HOST: postgres
-#      DB_PORT: 5432
-#      DB_NAME: runnercircle
-#      DB_USER: postgres
-#      DB_PASSWORD: postgres
-#    depends_on:
-#      - postgres
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: runnercircle
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-troque-em-producao-0123456789abcdef}
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres:17
