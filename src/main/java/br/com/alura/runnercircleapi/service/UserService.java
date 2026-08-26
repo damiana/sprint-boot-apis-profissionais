@@ -1,6 +1,8 @@
 package br.com.alura.runnercircleapi.service;
 
+import br.com.alura.runnercircleapi.dto.LoginRequestDTO;
 import br.com.alura.runnercircleapi.dto.RegisterRequestDTO;
+import br.com.alura.runnercircleapi.exception.CredenciaisInvalidasException;
 import br.com.alura.runnercircleapi.mapper.UserMapper;
 import br.com.alura.runnercircleapi.model.User;
 import br.com.alura.runnercircleapi.repository.UserRepository;
@@ -30,5 +32,16 @@ public class UserService {
         String senhaHash = passwordEncoder.encode(dto.senha());
         User user = userMapper.toEntity(dto, senhaHash);
         return userRepository.save(user);
+    }
+
+    public User autenticar(LoginRequestDTO dto) {
+        User user = userRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new CredenciaisInvalidasException("email ou senha inválidos"));
+
+        if (!passwordEncoder.matches(dto.senha(), user.getSenha())) {
+            throw new CredenciaisInvalidasException("email ou senha inválidos");
+        }
+
+        return user;
     }
 }

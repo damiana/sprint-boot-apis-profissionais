@@ -52,6 +52,14 @@ public class GlobalExceptionHandler {
         return construirErro(HttpStatus.NOT_FOUND, exception.getMessage(), request);
     }
 
+    @ExceptionHandler(CredenciaisInvalidasException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse tratarCredenciaisInvalidas(CredenciaisInvalidasException exception, HttpServletRequest request) {
+        log.warn("Tentativa de login com credenciais inválidas em {}", request.getRequestURI());
+
+        return construirErro(HttpStatus.UNAUTHORIZED, exception.getMessage(), request);
+    }
+
     @ExceptionHandler(ImagemInvalidaException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse tratarImagemInvalida(ImagemInvalidaException exception, HttpServletRequest request) {
